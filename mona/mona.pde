@@ -17,12 +17,16 @@ void setup()
   size(400, 400);
   images = new ArrayList();
   initializeImages();
+  mona = loadImage(targetImagePath);
+
+  for (int i = 0; i < images.size(); i++) {
+    println("image " + i + " has a difference of " + calculateDifference((PImage) images.get(i), mona));
+  }
 }
 
 void draw() 
 {
   background(0);
-  mona = loadImage(targetImagePath);
   PImage workingImage = (PImage) images.get(0);
   workingImage.loadPixels();
   mona.loadPixels();
@@ -50,7 +54,7 @@ void draw()
   else {
     image(mona, 50, 50);
   }
-//  images.set(0,workingImage);
+  //  images.set(0,workingImage);
   println(frameCount + " has a difference of " + diff);
 }
 
