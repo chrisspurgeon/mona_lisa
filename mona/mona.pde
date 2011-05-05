@@ -8,33 +8,29 @@ PImage mona;
 float changeRate = 0.02;
 float diff = 0.0;
 
-
-PImage[] images = new PImage[mutationCount];
+ArrayList images;
+//PImage[] images = new PImage[mutationCount];
 
 
 void setup() 
 {
   size(400, 400);
+  images = new ArrayList();
   initializeImages();
-
-
-  mona = loadImage(targetImagePath);
-  img = createImage(imageSize, imageSize, RGB);
-  for(int i=0; i < img.pixels.length; i++) {
-    img.pixels[i] = color(random(0,255),random(0,255), random(0,255));
-  }
 }
 
 void draw() 
 {
   background(0);
-  images[0].loadPixels();
+  mona = loadImage(targetImagePath);
+  PImage workingImage = (PImage) images.get(0);
+  workingImage.loadPixels();
   mona.loadPixels();
-  for (int i = 0; i < images[0].pixels.length; i++) {
+  for (int i = 0; i < workingImage.pixels.length; i++) {
 
-    float r = red(images[0].pixels[i]);
-    float g = green(images[0].pixels[i]);
-    float b = blue(images[0].pixels[i]);
+    float r = red(workingImage.pixels[i]);
+    float g = green(workingImage.pixels[i]);
+    float b = blue(workingImage.pixels[i]);
     float rMona = red(mona.pixels[i]);
     float gMona = green(mona.pixels[i]);
     float bMona = blue(mona.pixels[i]);
@@ -42,29 +38,29 @@ void draw()
     g = adjust(g, gMona, changeRate);
     b = adjust(b, bMona, changeRate);
 
-
-
     color c;
     c = color(r,g,b);
-    images[0].pixels[i] = c;
+    workingImage.pixels[i] = c;
   }
-  diff = calculateDifference(images[3], mona);
-  images[0].updatePixels();
+  diff = calculateDifference(workingImage, mona);
+  workingImage.updatePixels();
   if (frameCount % 2 == 0) {
-    image(images[0], 50, 50);
+    image(workingImage, 50, 50);
   }  
   else {
     image(mona, 50, 50);
   }
+//  images.set(0,workingImage);
   println(frameCount + " has a difference of " + diff);
 }
 
 void initializeImages() {
-  for (int i = 0; i < images.length; i++) {
-    images[i] = createImage(imageSize, imageSize, RGB);
-    for(int j=0; j < images[i].pixels.length; j++) {
-      images[i].pixels[j] = color(random(0,255),random(0,255), random(0,255));
+  for (int i = 0; i < population; i++) {
+    PImage temp = createImage(imageSize, imageSize, RGB);
+    for(int j=0; j < temp.pixels.length; j++) {
+      temp.pixels[j] = color(random(0,255),random(0,255), random(0,255));
     }
+    images.add(temp);
   }
 }
 
