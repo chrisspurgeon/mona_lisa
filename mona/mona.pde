@@ -1,6 +1,7 @@
 PImage img;
 PImage mona;
-float changeRate = 0.05;
+float changeRate = 0.08;
+float diff = 0.0;
 
 void setup() 
 {
@@ -38,6 +39,7 @@ void draw()
     c = color(r,g,b);
     img.pixels[i] = c;
   }
+  diff = calculateDifference(img, mona);
   img.updatePixels();
   if (frameCount % 2 == 0) {
     image(img, 50, 50);
@@ -45,7 +47,7 @@ void draw()
   else {
     image(mona, 50, 50);
   }
-  println(frameCount);
+  println(frameCount + " has a difference of " + diff);
 }
 
 float adjust(float origColor, float targetColor, float changeRate) {
@@ -54,5 +56,27 @@ float adjust(float origColor, float targetColor, float changeRate) {
   diff = targetColor - origColor;
   adjustedColor = origColor + (diff * changeRate);
   return adjustedColor;
+}
+
+float calculateDifference(PImage img1, PImage img2) {
+  float totalDiff = 0.0;
+  if (img1.pixels.length != img2.pixels.length) {
+    return -1.0;
+  } 
+  else {
+    for (int i = 0; i < img1.pixels.length; i++) {
+
+      float r1 = red(img1.pixels[i]);
+      float g1 = green(img1.pixels[i]);
+      float b1 = blue(img1.pixels[i]);
+      float r2 = red(img2.pixels[i]);
+      float g2 = green(img2.pixels[i]);
+      float b2 = blue(img2.pixels[i]);
+      totalDiff += abs(r1 - r2);
+      totalDiff += abs(g1 - g2);
+      totalDiff += abs(b1 - b2);
+    }
+    return totalDiff;
+  }
 }
 
