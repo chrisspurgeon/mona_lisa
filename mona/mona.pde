@@ -28,13 +28,13 @@ void setup()
 void draw() 
 {
   background(0);
-  images[3].loadPixels();
+  images[0].loadPixels();
   mona.loadPixels();
-  for (int i = 0; i < images[3].pixels.length; i++) {
+  for (int i = 0; i < images[0].pixels.length; i++) {
 
-    float r = red(images[3].pixels[i]);
-    float g = green(images[3].pixels[i]);
-    float b = blue(images[3].pixels[i]);
+    float r = red(images[0].pixels[i]);
+    float g = green(images[0].pixels[i]);
+    float b = blue(images[0].pixels[i]);
     float rMona = red(mona.pixels[i]);
     float gMona = green(mona.pixels[i]);
     float bMona = blue(mona.pixels[i]);
@@ -46,15 +46,16 @@ void draw()
 
     color c;
     c = color(r,g,b);
-    images[3].pixels[i] = c;
+    images[0].pixels[i] = c;
   }
   diff = calculateDifference(images[3], mona);
-  images[3].updatePixels();
-//  if (frameCount % 2 == 0) {
-    image(images[3], 50, 50);
-//  }  else {
-//    image(mona, 50, 50);
-//  }
+  images[0].updatePixels();
+  if (frameCount % 2 == 0) {
+    image(images[0], 50, 50);
+  }  
+  else {
+    image(mona, 50, 50);
+  }
   println(frameCount + " has a difference of " + diff);
 }
 
