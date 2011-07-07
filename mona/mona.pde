@@ -1,11 +1,11 @@
 int population = 20; // Number of images in the population.
 int mutationCount = 50; // Number of pixels to change each generation.
 int imageSize = 300; // We're assuming square images here.
-String targetImagePath = "/Users/chrisspurgeon/Documents/genetic_algorithm_experiments/mona_lisa/images/300x300.jpg";
+String targetImagePath = "/Users/chrisspurgeon/Documents/genetic_algorithm_experiments/mona_lisa/images/vermeer_300x300.jpg";
 
 PImage img;
 PImage mona;
-float changeRate = 0.02;
+float changeRate = 0.2;
 float diff = 0.0;
 
 ArrayList images;
@@ -18,6 +18,7 @@ void setup()
   images = new ArrayList();
   initializeImages();
   mona = loadImage(targetImagePath);
+  frameRate(5);
 
   for (int i = 0; i < images.size(); i++) {
     println("image " + i + " has a difference of " + calculateDifference((PImage) images.get(i), mona));
@@ -48,12 +49,12 @@ void draw()
   }
   diff = calculateDifference(workingImage, mona);
   workingImage.updatePixels();
-  if (frameCount % 2 == 0) {
+//  if (frameCount % 2 == 0) {
     image(workingImage, 50, 50);
-  }  
-  else {
-    image(mona, 50, 50);
-  }
+ // }  
+ // else {
+//    image(mona, 50, 50);
+ // }
   //  images.set(0,workingImage);
   println(frameCount + " has a difference of " + diff);
 }
